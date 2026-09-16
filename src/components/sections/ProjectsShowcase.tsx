@@ -17,6 +17,7 @@ interface Project {
   description: string;
   tags: string[];
   image?: string;
+  logo?: string;
   links?: ProjectLink[];
 }
 
@@ -28,7 +29,10 @@ const projects: Project[] = [
     category: 'Full Stack',
     description:
       'Sealed-bid auction platform used by Ethiopian government institutions — bidder KYC, the auction lifecycle, bid submission and invalidation, winner selection, and CPO payment flows. One npm-workspace codebase powers separate public bidder and admin console apps, with role-based access control between institution staff, bidders, and administrators.',
-    tags: ['React', 'TypeScript', 'Node.js', 'Supabase', 'npm workspaces'],
+    tags: ['React', 'TypeScript', 'Node.js', 'SQL', 'npm workspaces'],
+    image: '/Enderas.png',
+    logo: '/enderas_logo_blue.svg',
+    links: [{ label: 'Live Site', href: 'https://enderasbid.com/' }],
   },
   {
     id: 2,
@@ -91,6 +95,17 @@ export default function ProjectsShowcase() {
             >
               <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-surface transition-colors hover:border-ink/40">
                 <div className="relative aspect-[16/10] overflow-hidden border-b border-line bg-surface-muted">
+                  {project.logo && (
+                    <div className="absolute left-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-md border border-line bg-background/85 p-1.5 backdrop-blur">
+                      <Image
+                        src={project.logo}
+                        alt={`${project.title} logo`}
+                        width={24}
+                        height={24}
+                        className="h-full w-full object-contain"
+                      />
+                    </div>
+                  )}
                   {project.image ? (
                     <Image
                       src={project.image}
