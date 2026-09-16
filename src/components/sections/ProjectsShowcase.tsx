@@ -58,6 +58,7 @@ const projects: Project[] = [
       'One education product across three clients — a TypeScript web app, a Flutter mobile app, and an Electron desktop build — all reading from the same MongoDB-backed API. Course enrollment, school management, competitions, and certification, with AI-assisted features built into the learning flow and one Figma design system carried through all three clients.',
     tags: ['TypeScript', 'MongoDB', 'Electron', 'Flutter'],
     image: '/DeltaLabs.png',
+    aspect: '1440 / 1295',
     links: [{ label: 'Figma', href: 'https://www.figma.com/design/FKY5f0yd3fSsTmgjERfFHb/Education-UIUX?node-id=0-1&p=f&t=eVN64FtUWw0NKS1Z-0' }],
   },
   {
