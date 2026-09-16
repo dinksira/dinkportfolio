@@ -1,174 +1,93 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { Briefcase, GraduationCap } from 'lucide-react';
+import Reveal from '@/components/ui/Reveal';
 
-const timelineData = [
+const timeline = [
   {
     id: 1,
-    type: 'work',
     title: 'UI/UX Designer',
     company: 'Delta Labs',
     location: 'Addis Ababa, Ethiopia',
-    period: 'Dec 2024 - Present • Full-time',
-    description: [
-      'Led the end-to-end UI/UX design for the Delta Educational Website using Figma, from wireframes to high-fidelity prototypes.',
-      'Conducted iterative feedback sessions to refine user flows, improving usability and accessibility.',
-      'Collaborated with frontend developers to ensure pixel-perfect implementation and cohesive user experience.',
-      'Focused on user-centric design principles, resulting in a more engaging and effective learning platform.'
+    period: 'Dec 2024 — Present',
+    points: [
+      'Led end-to-end UI/UX design for the educational platform, from wireframes to high-fidelity prototypes.',
+      'Ran iterative feedback sessions to refine user flows, improving usability and accessibility.',
+      'Collaborated with developers to ensure pixel-perfect implementation.',
     ],
-    icon: Briefcase,
-    color: 'text-ethiopian-green',
-    bgColor: 'bg-ethiopian-green/20',
   },
   {
     id: 2,
-    type: 'work',
     title: 'Video Editor',
     company: 'EBJ Media',
     location: 'Remote',
-    period: 'July 2024 - Dec 2024 • 6 months',
-    description: [
-      'Edited and produced high-quality promotional and social media content from raw footage to final delivery.',
-      'Used Adobe Premiere Pro and After Effects for color correction, audio balancing, motion graphics, and visual effects.',
-      'Collaborated with producers and designers to maintain brand consistency and meet tight deadlines.'
+    period: 'Jul 2024 — Dec 2024',
+    points: [
+      'Edited promotional and social media content from raw footage to final delivery.',
+      'Used Premiere Pro and After Effects for color correction, audio, and motion graphics.',
+      'Maintained brand consistency while meeting tight deadlines.',
     ],
-    icon: Briefcase,
-    color: 'text-blue-nile',
-    bgColor: 'bg-blue-nile/20',
   },
   {
     id: 3,
-    type: 'internship',
     title: 'ICT Intern',
     company: 'Hawassa University ICT Center',
     location: 'Hawassa, Ethiopia',
-    period: 'Jul 2024 - Sep 2024 • Full-time',
-    description: [
-      'Collaborated on documentation and configuration of a new network topology project.',
-      'Diagnosed and resolved network issues using advanced troubleshooting tools.',
-      'Applied theoretical computer science knowledge to real-world infrastructure challenges.'
+    period: 'Jul 2024 — Sep 2024',
+    points: [
+      'Supported documentation and configuration of a new network topology project.',
+      'Diagnosed and resolved network issues with advanced troubleshooting tools.',
     ],
-    icon: GraduationCap,
-    color: 'text-axum-purple',
-    bgColor: 'bg-axum-purple/20',
   },
 ];
 
 export default function Timeline() {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
   return (
-    <section className="py-20 bg-white dark:bg-neutral-900 transition-colors duration-300 relative">
-      <div className="container mx-auto px-6 relative">
-        {/* Header */}
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          className="text-center mb-20"
-        >
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 text-neutral-900 dark:text-white">
-            Journey & <span className="text-ethiopian-green">Experience</span>
+    <section id="experience" className="border-t border-line py-24">
+      <div className="mx-auto max-w-6xl px-6">
+        <Reveal>
+          <p className="text-xs uppercase tracking-[0.3em] text-accent">04 — Experience</p>
+          <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight md:text-4xl">
+            Experience
           </h2>
-          <p className="text-xl text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
-            A snapshot of my professional growth and achievements
-          </p>
-        </motion.div>
+        </Reveal>
 
-        {/* Timeline Wrapper */}
-        <div className="relative">
-          <div className="absolute left-1/2 top-0 -translate-x-1/2 w-1 bg-neutral-300 dark:bg-neutral-700 h-full"></div>
-
-          <div className="space-y-12 relative z-10">
-            {timelineData.map((item, index) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 50 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: index * 0.2 }}
-                className="relative flex flex-col md:flex-row items-center md:justify-between"
-              >
-                <div
-                  className={`md:w-1/2 ${
-                    index % 2 === 0
-                      ? 'md:pr-12 md:ml-auto text-right'
-                      : 'md:pl-12 md:mr-auto text-left'
-                  }`}
-                >
-                  <motion.div
-                    whileHover={{ scale: 1.03 }}
-                    className="bg-white dark:bg-neutral-800 backdrop-blur-md bg-opacity-80 dark:bg-opacity-50 p-6 rounded-xl shadow-lg dark:shadow-gray-700 transition-all duration-300"
-                  >
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
-                      <h3 className="text-xl font-display font-semibold text-neutral-900 dark:text-white">
-                        {item.title}
-                      </h3>
-                      <span className="text-sunset-gold font-medium text-sm mt-1 sm:mt-0">
-                        {item.period}
-                      </span>
-                    </div>
-
-                    <p className="text-ethiopian-green font-medium mb-1">
-                      {item.company}
-                    </p>
-                    <p className="text-neutral-500 dark:text-neutral-400 mb-3">
-                      {item.location}
-                    </p>
-
-                    <ul className="text-neutral-600 dark:text-neutral-300 leading-relaxed list-disc list-inside space-y-1">
-                      {item.description.map((desc, i) => (
-                        <li key={i}>{desc}</li>
-                      ))}
-                    </ul>
-
-                    <div className="mt-4">
-                      <span
-                        className={`inline-block px-3 py-1 text-xs font-medium rounded-full capitalize ${
-                          item.type === 'work'
-                            ? 'bg-ethiopian-green/20 text-ethiopian-green'
-                            : item.type === 'internship'
-                            ? 'bg-axum-purple/20 text-axum-purple'
-                            : 'bg-blue-nile/20 text-blue-nile'
-                        }`}
-                      >
-                        {item.type}
-                      </span>
-                    </div>
-                  </motion.div>
-                </div>
-
-                <div className="absolute left-1/2 top-0 -translate-x-1/2 w-12 h-12 flex items-center justify-center">
-                  <div
-                    className={`w-12 h-12 rounded-full ${item.bgColor} flex items-center justify-center ${item.color} shadow-md dark:shadow-gray-700`}
-                  >
-                    <item.icon size={20} />
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+        <Reveal delay={0.08} className="mt-16">
+          <div className="relative max-w-2xl">
+            <div className="absolute left-0 top-2 h-full w-px bg-line" />
+            <ul className="space-y-16">
+              {timeline.map((item) => (
+                <li key={item.id} className="relative pl-10">
+                  <span className="absolute left-0 top-2 h-2 w-2 -translate-x-1/2 rounded-full bg-accent" />
+                  <p className="text-xs uppercase tracking-[0.2em] text-accent">{item.period}</p>
+                  <h3 className="mt-2 font-display text-xl font-semibold tracking-tight">
+                    {item.title}
+                  </h3>
+                  <p className="mt-1 text-sm text-soft">
+                    {item.company} · {item.location}
+                  </p>
+                  <ul className="mt-4 space-y-2 text-sm leading-relaxed text-soft">
+                    {item.points.map((point) => (
+                      <li key={point} className="flex gap-3">
+                        <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-ink/40" />
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
+        </Reveal>
 
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: timelineData.length * 0.2 + 0.3 }}
-          className="text-center mt-16"
-        >
+        <Reveal delay={0.12} className="mt-20">
           <a
             href="/Dink%27s_Resume.pdf"
             download
-            className="btn-secondary text-lg px-8 py-4 inline-block"
+            className="inline-flex rounded-md border border-line px-6 py-3 text-sm font-medium transition-colors hover:border-ink hover:bg-surface-muted"
           >
             Download Resume
           </a>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );

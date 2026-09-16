@@ -1,193 +1,255 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import Image from 'next/image';
+import emailjs from '@emailjs/browser';
+import Reveal from '@/components/ui/Reveal';
+import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
+
+const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+const contactInfo = [
+  {
+    icon: Mail,
+    label: 'Email',
+    value: 'dinksiraelisa@gmail.com',
+    href: 'mailto:dinksiraelisa@gmail.com',
+  },
+  {
+    icon: Phone,
+    label: 'Phone',
+    value: '0949 765 679',
+    href: 'tel:0949765679',
+  },
+  {
+    icon: MapPin,
+    label: 'Location',
+    value: 'Addis Ababa, Ethiopia',
+    href: undefined,
+  },
+];
+
+type Status = 'idle' | 'sending' | 'sent' | 'error';
+
+const initialForm = { name: '', email: '', subject: '', message: '' };
 
 export default function ContactForm() {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-  
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  });
+  const [formData, setFormData] = useState(initialForm);
+  const [status, setStatus] = useState<Status>('idle');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    setStatus('sending');
+    try {
+      if (SERVICE_ID && TEMPLATE_ID && PUBLIC_KEY) {
+        await emailjs.send(
+          SERVICE_ID,
+          TEMPLATE_ID,
+          {
+            from_name: formData.name,
+            reply_to: formData.email,
+            subject: formData.subject,
+            message: formData.message,
+          },
+          { publicKey: PUBLIC_KEY }
+        );
+      } else {
+        window.location.href = `mailto:dinksiraelisa@gmail.com?subject=${encodeURIComponent(
+          formData.subject
+        )}&body=${encodeURIComponent(
+          `${formData.message}\n\n— ${formData.name} (${formData.email})`
+        )}`;
+      }
+      setFormData(initialForm);
+      setStatus('sent');
+    } catch {
+      setStatus('error');
+    }
   };
 
-  const contactInfo = [
-    { icon: Mail, label: 'Email', value: 'dinksiraelisa@gmail.com', href: 'mailto:dinksiraelisa@gmail.com' },
-    { icon: Phone, label: 'Phone', value: '0949765679', href: 'tel:0949765679' },
-    { icon: MapPin, label: 'Location', value: 'Addis Ababa, Ethiopia', href: '#' },
-  ];
+  const inputClasses =
+    'w-full border-b border-line bg-transparent py-3 text-ink placeholder:soft transition-colors focus:border-accent focus:outline-none';
 
   return (
-    <section id="contact" className="py-20 bg-white dark:bg-neutral-900 transition-colors duration-300">
-      <div className="container mx-auto px-6">
-        {/* Section Header */}
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          className="text-center mb-20"
-        >
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-4 text-neutral-900 dark:text-white">
-            Let's <span className="text-ethiopian-green">Connect</span>
+    <section id="contact" className="border-t border-line py-24">
+      <div className="mx-auto max-w-6xl px-6">
+        <Reveal>
+          <p className="text-xs uppercase tracking-[0.3em] text-accent">05 — Contact</p>
+          <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight md:text-4xl">
+            Let&apos;s work together
           </h2>
-          <p className="text-xl text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">
-            Ready to bring your ideas to life? Let's create something amazing together.
-          </p>
-        </motion.div>
+        </Reveal>
 
-        {/* Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.2 }}
-            className="flex flex-col space-y-8"
-          >
-            <div className="bg-neutral-50 dark:bg-neutral-800 rounded-3xl p-8 backdrop-blur-md shadow-lg dark:shadow-gray-700 transition-colors duration-300">
-              <h3 className="text-2xl font-display font-semibold mb-6 text-neutral-900 dark:text-white">
-                Get in Touch
-              </h3>
-              <div className="space-y-6">
-                {contactInfo.map((item, idx) => (
-                  <motion.a
+        <div className="mt-16 grid gap-16 lg:grid-cols-2">
+          <Reveal delay={0.05}>
+            <div className="space-y-8">
+              {contactInfo.map((item) => {
+                const Icon = item.icon;
+                const content = (
+                  <div className="flex items-center gap-4 py-3">
+                    <Icon size={18} className="text-soft" />
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.15em] text-soft">
+                        {item.label}
+                      </p>
+                      <p className="mt-0.5 font-medium text-ink">{item.value}</p>
+                    </div>
+                    {item.href && (
+                      <ArrowUpRight size={16} className="ml-auto text-soft" />
+                    )}
+                  </div>
+                );
+                return item.href ? (
+                  <a
                     key={item.label}
                     href={item.href}
-                    target={item.label !== 'Location' ? '_blank' : undefined}
+                    target="_blank"
                     rel="noopener noreferrer"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 0.4 + idx * 0.1 }}
-                    whileHover={{ x: 5 }}
-                    className="flex items-center space-x-4 p-4 rounded-xl hover:bg-white dark:hover:bg-neutral-700 transition-all duration-300 group"
+                    className="group block border-b border-line transition-colors hover:border-ink/60"
                   >
-                    <div className="p-3 bg-ethiopian-green/10 text-ethiopian-green rounded-lg group-hover:bg-ethiopian-green group-hover:text-white transition-all duration-300">
-                      <item.icon size={20} />
-                    </div>
-                    <div>
-                      <p className="text-sm text-neutral-500 dark:text-neutral-300">{item.label}</p>
-                      <p className="font-medium text-neutral-900 dark:text-white group-hover:text-ethiopian-green transition-colors">
-                        {item.value}
-                      </p>
-                    </div>
-                  </motion.a>
-                ))}
-              </div>
+                    {content}
+                  </a>
+                ) : (
+                  <div key={item.label} className="border-b border-line">
+                    {content}
+                  </div>
+                );
+              })}
 
-              {/* Note */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={inView ? { opacity: 1 } : {}}
-                transition={{ delay: 0.8 }}
-                className="mt-8 p-4 bg-sunset-gold/10 dark:bg-sunset-gold/20 rounded-xl border border-sunset-gold/20 text-center"
-              >
-                <p className="text-sm text-neutral-600 dark:text-neutral-300">
-                  Let's connect with warmth and creativity
-                </p>
-              </motion.div>
-            </div>
-          </motion.div>
-
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.4 }}
-          >
-            <form
-              onSubmit={handleSubmit}
-              className="bg-white dark:bg-neutral-800 backdrop-blur-md bg-opacity-80 dark:bg-opacity-50 p-8 rounded-3xl shadow-lg dark:shadow-gray-700 border border-neutral-200 dark:border-neutral-700 transition-all duration-300"
-            >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div className="flex items-center gap-4 rounded-xl border border-line p-4">
+                <Image
+                  src="/assets/qr.jpg"
+                  alt="WhatsApp QR code"
+                  width={80}
+                  height={80}
+                  className="h-20 w-20 rounded-lg object-cover"
+                />
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-                    Full Name *
+                  <p className="text-sm font-medium">Or chat on WhatsApp</p>
+                  <p className="mt-1 text-sm text-soft">
+                    Scan the QR code to message me directly.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <form onSubmit={handleSubmit} className="space-y-8">
+              <div className="grid gap-8 sm:grid-cols-2">
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="mb-2 block text-xs uppercase tracking-[0.15em] text-soft"
+                  >
+                    Full name
                   </label>
                   <input
-                    type="text"
                     id="name"
                     name="name"
+                    type="text"
+                    required
                     value={formData.name}
                     onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:ring-2 focus:ring-ethiopian-green focus:border-transparent transition-all duration-300 bg-transparent text-neutral-900 dark:text-white"
-                    placeholder="Your full name"
+                    placeholder="Your name"
+                    className={inputClasses}
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-                    Email Address *
+                  <label
+                    htmlFor="email"
+                    className="mb-2 block text-xs uppercase tracking-[0.15em] text-soft"
+                  >
+                    Email
                   </label>
                   <input
-                    type="email"
                     id="email"
                     name="email"
+                    type="email"
+                    required
                     value={formData.email}
                     onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:ring-2 focus:ring-ethiopian-green focus:border-transparent transition-all duration-300 bg-transparent text-neutral-900 dark:text-white"
-                    placeholder="your.email@example.com"
+                    placeholder="you@example.com"
+                    className={inputClasses}
                   />
                 </div>
               </div>
 
-              <div className="mb-6">
-                <label htmlFor="subject" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-                  Subject *
+              <div>
+                <label
+                  htmlFor="subject"
+                  className="mb-2 block text-xs uppercase tracking-[0.15em] text-soft"
+                >
+                  Subject
                 </label>
                 <input
-                  type="text"
                   id="subject"
                   name="subject"
+                  type="text"
+                  required
                   value={formData.subject}
                   onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:ring-2 focus:ring-ethiopian-green focus:border-transparent transition-all duration-300 bg-transparent text-neutral-900 dark:text-white"
-                  placeholder="What's this about?"
+                  placeholder="What is this about?"
+                  className={inputClasses}
                 />
               </div>
-              <div className="mb-6">
-                <label htmlFor="message" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2">
-                  Message *
+
+              <div>
+                <label
+                  htmlFor="message"
+                  className="mb-2 block text-xs uppercase tracking-[0.15em] text-soft"
+                >
+                  Message
                 </label>
                 <textarea
                   id="message"
                   name="message"
+                  required
+                  rows={5}
                   value={formData.message}
                   onChange={handleChange}
-                  required
-                  rows={6}
-                  className="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg focus:ring-2 focus:ring-ethiopian-green focus:border-transparent transition-all duration-300 resize-vertical bg-transparent text-neutral-900 dark:text-white"
-                  placeholder="Tell me about your project, ideas, or just say hello..."
+                  placeholder="Tell me about your project or idea..."
+                  className={`${inputClasses} resize-none`}
                 />
               </div>
-              <motion.button
-                type="submit"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full bg-ethiopian-green text-white py-4 px-8 rounded-xl font-semibold text-lg hover:bg-green-700 transition-all duration-300 flex items-center justify-center space-x-2"
-              >
-                <span>Send Message</span>
-                <Send size={20} />
-              </motion.button>
+
+              <div>
+                <button
+                  type="submit"
+                  disabled={status === 'sending'}
+                  className="rounded-md bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-hover disabled:opacity-50"
+                >
+                  {status === 'sending' ? 'Sending…' : 'Send Message'}
+                </button>
+
+                {status === 'sent' && (
+                  <p className="mt-4 text-sm text-accent">
+                    Thanks — your message has been sent. I&apos;ll get back to you soon.
+                  </p>
+                )}
+                {status === 'error' && (
+                  <p className="mt-4 text-sm">
+                    Something went wrong. Please email me directly at{' '}
+                    <a
+                      href="mailto:dinksiraelisa@gmail.com"
+                      className="text-accent hover:underline"
+                    >
+                      dinksiraelisa@gmail.com
+                    </a>
+                    .
+                  </p>
+                )}
+              </div>
             </form>
-          </motion.div>
+          </Reveal>
         </div>
       </div>
     </section>

@@ -1,240 +1,158 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Sun, Moon, User, FileText } from 'lucide-react';
-import Image from 'next/image';
+import { Moon, Sun } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 
+const RESUME_URL =
+  'https://drive.google.com/file/d/1hh25YxVdYL7iln2_UuSQj5XqF7GfVm0C/view?usp=drive_link';
+
+const navItems = [
+  { id: 'home', label: 'Home' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'contact', label: 'Contact' },
+];
+
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [imageError, setImageError] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
-
   const { theme, toggleTheme } = useTheme();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [active, setActive] = useState('home');
+  const [progress, setProgress] = useState(0);
 
-  const handleResumeClick = () => {
-    window.open(
-      'https://drive.google.com/file/d/1hh25YxVdYL7iln2_UuSQj5XqF7GfVm0C/view?usp=drive_link',
-      '_blank',
-      'noopener,noreferrer'
-    );
-  };
-
-  // Smooth scroll with header offset
-  const handleScroll = (id: string) => {
-    const element = document.getElementById(id);
-    if (!element) return;
-    const yOffset = -90; // adjust according to your header height
-    const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const y = el.getBoundingClientRect().top + window.pageYOffset - 64;
     window.scrollTo({ top: y, behavior: 'smooth' });
-    setIsMenuOpen(false);
+    setMenuOpen(false);
   };
 
   useEffect(() => {
+    const sections = document.querySelectorAll('section[id]');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { rootMargin: '-40% 0px -55% 0px' }
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     const onScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-
-      const winScroll =
-        document.body.scrollTop || document.documentElement.scrollTop;
-      const height =
-        document.documentElement.scrollHeight -
-        document.documentElement.clientHeight;
-      setScrollProgress((winScroll / height) * 100);
+      const el = document.documentElement;
+      const total = el.scrollHeight - el.clientHeight;
+      setProgress(total > 0 ? (el.scrollTop / total) * 100 : 0);
     };
-
-    window.addEventListener('scroll', onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const navItems = [
-    { name: 'Home', href: '#home' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Contact', href: '#contact' },
-  ];
-
   return (
     <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'glass-morphism shadow-lg backdrop-blur-md bg-white/80 dark:bg-neutral-900/80 border-b border-white/20 dark:border-neutral-700/20'
-          : 'bg-transparent'
-      }`}
+      initial={{ y: -24, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
+      className="fixed inset-x-0 top-0 z-50 border-b border-line bg-background/85 backdrop-blur-md"
     >
-      <nav className="container mx-auto px-6 py-3">
-        <div className="flex items-center justify-between">
-          {/* Logo + Profile */}
-          <motion.div whileHover={{ scale: 1.02 }} className="flex items-center space-x-3">
-            <motion.div
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 10 }}
-              className="relative w-10 h-10 rounded-full border-2 border-ethiopian-green/20 dark:border-ethiopian-green/40 overflow-hidden bg-gradient-to-br from-ethiopian-green to-sunset-gold shadow-lg"
+      <nav className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6">
+        <button
+          onClick={() => scrollTo('home')}
+          className="font-display text-lg font-semibold tracking-tight"
+        >
+          Dinksira<span className="text-accent">.</span>
+        </button>
+
+        <div className="hidden items-center gap-7 md:flex">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => scrollTo(item.id)}
+              className={`text-sm transition-colors ${
+                active === item.id ? 'text-ink' : 'text-soft hover:text-ink'
+              }`}
             >
-              {!imageError ? (
-                <Image
-                  src="/profile1.png"
-                  alt="Dinksira Elsa"
-                  width={40}
-                  height={40}
-                  className="object-cover w-full h-full"
-                  onError={() => setImageError(true)}
-                  priority
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-ethiopian-green to-sunset-gold">
-                  <User className="text-white" size={20} />
-                </div>
-              )}
-
-              {/* Online indicator */}
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="absolute bottom-0 right-0 w-2 h-2 bg-green-500 rounded-full border border-white dark:border-neutral-900"
-              />
-            </motion.div>
-
-            <div className="flex flex-col">
-              <span className="font-display text-lg font-bold text-neutral-900 dark:text-white leading-tight">
-                Dinksira Elsa
-              </span>
-              <span className="text-xs text-neutral-500 dark:text-neutral-400 font-medium">
-                UI/UX Designer | Frontend Developer | Video Editor
-              </span>
-            </div>
-          </motion.div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-4">
-            {navItems.map((item, index) => (
-              <motion.button
-                key={item.name}
-                onClick={() => handleScroll(item.name.toLowerCase())}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="relative font-medium text-neutral-600 dark:text-neutral-300 hover:text-ethiopian-green dark:hover:text-ethiopian-green transition-colors duration-300"
-              >
-                {item.name}
-                <motion.div
-                  className="absolute bottom-0 left-0 w-0 h-0.5 bg-ethiopian-green"
-                  whileHover={{ width: '100%' }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.button>
-            ))}
-
-            <motion.button
-              onClick={handleResumeClick}
-              whileHover={{ scale: 1.05, y: -1 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex items-center gap-2 px-4 py-2 bg-ethiopian-green text-white rounded-lg font-medium transition-all duration-300 hover:bg-green-700 hover:shadow-lg border border-ethiopian-green/20"
-            >
-              <FileText size={16} />
-              <span className="text-sm">Resume</span>
-            </motion.button>
-
-            <motion.button className="text-sm font-medium text-neutral-600 dark:text-neutral-300 hover:text-ethiopian-green dark:hover:text-ethiopian-green transition-colors px-3 py-1 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800">
-              EN/AM
-            </motion.button>
-
-            <motion.button
-              onClick={toggleTheme}
-              whileHover={{ scale: 1.1, rotate: 15 }}
-              whileTap={{ scale: 0.9 }}
-              className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors border border-neutral-200 dark:border-neutral-700 hover:border-ethiopian-green dark:hover:border-ethiopian-green"
-              aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-            >
-              {theme === 'dark' ? (
-                <Sun size={18} className="text-sunset-gold" />
-              ) : (
-                <Moon size={18} className="text-blue-nile" />
-              )}
-            </motion.button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <motion.button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="md:hidden p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors border border-neutral-200 dark:border-neutral-700"
-          >
-            {isMenuOpen ? <X size={20} className="text-neutral-900 dark:text-white" /> : <Menu size={20} className="text-neutral-900 dark:text-white" />}
-          </motion.button>
+              {item.label}
+            </button>
+          ))}
         </div>
 
-        {/* Mobile Navigation */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="md:hidden mt-4 pb-4 border-t border-neutral-200 dark:border-neutral-700 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md rounded-lg shadow-lg overflow-hidden"
-            >
-              <div className="flex flex-col space-y-3 pt-4">
-                {navItems.map((item, index) => (
-                  <motion.button
-                    key={item.name}
-                    onClick={() => handleScroll(item.name.toLowerCase())}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="flex items-center justify-between py-3 px-4 rounded-lg transition-all duration-300 text-neutral-600 dark:text-neutral-300 hover:text-ethiopian-green dark:hover:text-ethiopian-green hover:bg-neutral-100 dark:hover:bg-neutral-800"
-                  >
-                    {item.name}
-                  </motion.button>
-                ))}
-
-                <motion.button
-                  onClick={handleResumeClick}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5 }}
-                  className="flex items-center justify-center gap-2 py-3 px-4 mx-4 bg-ethiopian-green text-white rounded-lg font-medium transition-all duration-300 hover:bg-green-700 hover:shadow-lg border border-ethiopian-green/20"
-                >
-                  <FileText size={16} />
-                  <span>Resume</span>
-                </motion.button>
-
-                <div className="flex items-center justify-between pt-4 mt-2 border-t border-neutral-200 dark:border-neutral-700 px-4">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="text-sm font-medium text-neutral-600 dark:text-neutral-300 hover:text-ethiopian-green dark:hover:text-ethiopian-green transition-colors px-3 py-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800"
-                  >
-                    EN/AM
-                  </motion.button>
-                  <motion.button
-                    onClick={toggleTheme}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors border border-neutral-200 dark:border-neutral-700"
-                  >
-                    {theme === 'dark' ? (
-                      <Sun size={18} className="text-sunset-gold" />
-                    ) : (
-                      <Moon size={18} className="text-blue-nile" />
-                    )}
-                  </motion.button>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <div className="flex items-center gap-3">
+          <a
+            href={RESUME_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden rounded-md border border-line px-4 py-2 text-sm font-medium transition-colors hover:border-ink hover:bg-surface-muted sm:inline-flex"
+          >
+            Resume
+          </a>
+          <button
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            className="flex h-9 w-9 items-center justify-center rounded-md border border-line transition-colors hover:bg-surface-muted"
+          >
+            {theme === 'dark' ? (
+              <Sun size={15} className="text-soft" />
+            ) : (
+              <Moon size={15} className="text-soft" />
+            )}
+          </button>
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Open menu"
+            className="flex h-9 w-9 items-center justify-center rounded-md border border-line md:hidden"
+          >
+            <div className="space-y-1.5">
+              <span className="block h-px w-4 bg-ink" />
+              <span className="block h-px w-4 bg-ink" />
+            </div>
+          </button>
+        </div>
       </nav>
 
-      {/* Scroll Progress */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25 }}
+            className="overflow-hidden border-t border-line bg-background md:hidden"
+          >
+            <div className="space-y-1 px-6 py-4">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollTo(item.id)}
+                  className={`block w-full py-2 text-left text-sm transition-colors ${
+                    active === item.id ? 'text-ink' : 'text-soft hover:text-ink'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+              <a
+                href={RESUME_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 block rounded-md border border-line px-4 py-2 text-center text-sm font-medium transition-colors hover:bg-surface-muted"
+              >
+                Resume
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <motion.div
-        className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-ethiopian-green to-sunset-gold"
-        style={{ width: `${scrollProgress}%` }}
-        transition={{ duration: 0.1 }}
+        className="absolute bottom-0 left-0 h-px bg-accent"
+        style={{ width: `${progress}%` }}
       />
     </motion.header>
   );
