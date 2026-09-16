@@ -2,15 +2,22 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { ArrowUpRight } from 'lucide-react';
+import {
+  BehanceIcon,
+  DribbbleIcon,
+  GitHubIcon,
+  LinkedInIcon,
+  TelegramIcon,
+  UpworkIcon,
+} from '@/components/sections/ToolIcons';
 
 const socials = [
-  { name: 'Behance', href: 'https://www.behance.net/dinksiraelsa' },
-  { name: 'Dribbble', href: 'https://dribbble.com/dinksira-elsa' },
-  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/dinksira-elsa-13904b319/' },
-  { name: 'GitHub', href: 'https://github.com/dinksira' },
-  { name: 'Upwork', href: 'https://www.upwork.com/freelancers/~0169e7871bfcb02264?mp_source=share' },
-  { name: 'Telegram', href: 'https://t.me/Dink_Sira' },
+  { name: 'Behance', href: 'https://www.behance.net/dinksiraelsa', Icon: BehanceIcon },
+  { name: 'Dribbble', href: 'https://dribbble.com/dinksira-elsa', Icon: DribbbleIcon },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/dinksira-elsa-13904b319/', Icon: LinkedInIcon },
+  { name: 'GitHub', href: 'https://github.com/dinksira', Icon: GitHubIcon },
+  { name: 'Upwork', href: 'https://www.upwork.com/freelancers/~0169e7871bfcb02264?mp_source=share', Icon: UpworkIcon },
+  { name: 'Telegram', href: 'https://t.me/Dink_Sira', Icon: TelegramIcon },
 ];
 
 export default function Hero() {
@@ -65,20 +72,18 @@ export default function Hero() {
             </button>
           </div>
 
-          <ul className="mt-12 flex flex-wrap gap-x-6 gap-y-3">
+          <ul className="mt-12 flex flex-wrap gap-3">
             {socials.map((social) => (
               <li key={social.name}>
                 <a
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-1.5 text-sm text-soft transition-colors hover:text-ink"
+                  aria-label={social.name}
+                  title={social.name}
+                  className="flex h-10 w-10 items-center justify-center rounded-md border border-line text-soft transition-colors hover:border-accent hover:text-accent"
                 >
-                  {social.name}
-                  <ArrowUpRight
-                    size={13}
-                    className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                  />
+                  <social.Icon className="h-[18px] w-[18px]" />
                 </a>
               </li>
             ))}
