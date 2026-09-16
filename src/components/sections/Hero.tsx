@@ -37,13 +37,17 @@ export default function Hero() {
           </h1>
 
           <p className="mt-6 text-xl text-soft md:text-2xl">
-            UI/UX Designer &amp; Frontend Developer
+            Full Stack Developer &amp; UI/UX Designer
           </p>
 
+          <p className="mt-3 text-sm text-soft">Addis Ababa, Ethiopia</p>
+
           <p className="mt-6 max-w-xl leading-relaxed text-soft">
-            I design and build clean, intuitive digital experiences — from research
-            and wireframes to pixel-perfect interfaces that feel effortless and
-            honor Ethiopian design heritage.
+            I design in Figma and then build what I designed, so what ships
+            usually looks like what was drawn. Most of my work is React and
+            Next.js on the web, React Native on mobile, and Node.js or FastAPI
+            behind both — from sealed-bid auction platforms to an education
+            product that runs on web, mobile, and desktop off one backend.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-4">

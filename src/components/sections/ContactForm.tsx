@@ -20,8 +20,8 @@ const contactInfo = [
   {
     icon: Phone,
     label: 'Phone',
-    value: '0949 765 679',
-    href: 'tel:0949765679',
+    value: '+251 949 765 679',
+    href: 'tel:+251949765679',
   },
   {
     icon: MapPin,

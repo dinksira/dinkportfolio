@@ -16,19 +16,37 @@ interface Project {
   category: string;
   description: string;
   tags: string[];
-  image: string;
+  image?: string;
   links?: ProjectLink[];
 }
 
 const projects: Project[] = [
   {
     id: 1,
-    title: 'Delta Labs',
-    subtitle: 'Educational Learning Platform',
-    category: 'Product',
+    title: 'Enderas',
+    subtitle: 'Digital Auction & Bidding Platform',
+    category: 'Full Stack',
     description:
-      'An interactive educational platform with AI-powered learning features, modular navigation, and progress tracking.',
-    tags: ['React', 'TypeScript', 'Tailwind CSS', 'Vite'],
+      'Sealed-bid auction platform used by Ethiopian government institutions — bidder KYC, the auction lifecycle, bid submission and invalidation, winner selection, and CPO payment flows. One npm-workspace codebase powers separate public bidder and admin console apps, with role-based access control between institution staff, bidders, and administrators.',
+    tags: ['React', 'TypeScript', 'Node.js', 'Supabase', 'npm workspaces'],
+  },
+  {
+    id: 2,
+    title: 'Relavo',
+    subtitle: 'AI Client Relationship Platform',
+    category: 'AI Product',
+    description:
+      'Keeps client records and interaction history in one place for small businesses, using the Claude API to summarise relationships and surface accounts that have gone quiet. Built end to end, from database schema to interface.',
+    tags: ['React', 'Vite', 'Express', 'FastAPI', 'Claude API', 'Supabase'],
+  },
+  {
+    id: 3,
+    title: 'Delta Labs',
+    subtitle: 'Education Platform',
+    category: 'Full Stack',
+    description:
+      'One education product across three clients — a TypeScript web app, a Flutter mobile app, and an Electron desktop build — all reading from the same MongoDB-backed API. Course enrollment, school management, competitions, and certification, with AI-assisted features built into the learning flow and one Figma design system carried through all three clients.',
+    tags: ['TypeScript', 'MongoDB', 'Electron', 'Flutter'],
     image: '/DeltaLabs.png',
     links: [
       { label: 'Figma', href: 'https://www.figma.com/design/FKY5f0yd3fSsTmgjERfFHb/Education-UIUX?node-id=0-1&p=f&t=eVN64FtUWw0NKS1Z-0' },
@@ -36,64 +54,13 @@ const projects: Project[] = [
     ],
   },
   {
-    id: 2,
-    title: 'Bete Selam Hospital',
-    subtitle: 'Bilingual Healthcare Platform',
-    category: 'Product',
-    description:
-      'A healthcare platform built for the Ethiopian community with doctor discovery, appointment booking, and Amharic/English support.',
-    tags: ['Next.js', 'TypeScript', 'Tailwind CSS'],
-    image: '/Beteselam.png',
-    links: [
-      { label: 'Figma', href: 'https://www.figma.com/design/2P18EPNQGrr5GeOVYZ0kMA/Bete-Selam-Hospital?node-id=1-3&p=f&t=JcsUNEfWmCuQG7jC-0' },
-      { label: 'GitHub', href: 'https://github.com/dinksira/Bete-Selam' },
-    ],
-  },
-  {
-    id: 3,
-    title: 'Memarya',
-    subtitle: 'Amharic Learning Platform',
-    category: 'Product',
-    description:
-      'A gamified web app for learning Amharic, featuring structured lessons, achievements, and progress analytics.',
-    tags: ['React', 'TypeScript', 'Tailwind CSS', 'Vite'],
-    image: '/Memarya.png',
-  },
-  {
     id: 4,
-    title: 'Eventify',
-    subtitle: 'Event Management App Design',
-    category: 'UI/UX',
+    title: 'NoStock',
+    subtitle: 'ERP & Business Management System',
+    category: 'SaaS',
     description:
-      'A mobile app design for event management with simple user flows, a scalable design system, and task-focused screens.',
-    tags: ['Figma', 'Design System', 'Prototyping'],
-    image: '/eventify-mobile-1.png',
-    links: [
-      { label: 'Figma', href: 'https://www.figma.com/design/Ur8u3Lqjjx8LZOQwJTYaxv/premium-event-management-app--Eventify-V2-?node-id=1-10&p=f&t=hLSl32cx0qQTs8pB-0' },
-    ],
-  },
-  {
-    id: 5,
-    title: 'Nexus OS',
-    subtitle: 'Personal Dashboard',
-    category: 'Frontend',
-    description:
-      'A cyberpunk-inspired personal dashboard with glass-morphism UI, crypto tracking, and system monitoring widgets.',
-    tags: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
-    image: '/Nexus.png',
-  },
-  {
-    id: 6,
-    title: 'Health Advisor',
-    subtitle: 'Android Health App',
-    category: 'Mobile',
-    description:
-      'An Android app delivering personalized health insights and daily recommendations based on user habits and goals.',
-    tags: ['Android', 'Health', 'UI/UX'],
-    image: '/assets/images/Ha1.jpg',
-    links: [
-      { label: 'GitHub', href: 'https://github.com/dinksira/Health_Advisor.git' },
-    ],
+      'Pulls inventory, operations, and internal workflows into a single web system, structured so new modules can be added without pulling the core apart.',
+    tags: ['React', 'Node.js', 'PostgreSQL'],
   },
 ];
 
@@ -110,7 +77,7 @@ export default function ProjectsShowcase() {
               </h2>
             </div>
             <p className="max-w-sm text-sm text-soft md:text-right">
-              A focused selection of design and development projects.
+              Full stack products and platform builds.
             </p>
           </div>
         </Reveal>
@@ -124,13 +91,21 @@ export default function ProjectsShowcase() {
             >
               <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-surface transition-colors hover:border-ink/40">
                 <div className="relative aspect-[16/10] overflow-hidden border-b border-line bg-surface-muted">
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    sizes="(min-width: 768px) 50vw, 100vw"
-                    className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
-                  />
+                  {project.image ? (
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      sizes="(min-width: 768px) 50vw, 100vw"
+                      className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="font-display text-7xl font-semibold text-ink/10 transition-colors group-hover:text-ink/20">
+                        {project.title.charAt(0)}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex flex-1 flex-col p-6">

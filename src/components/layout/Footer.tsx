@@ -18,7 +18,7 @@ export default function Footer() {
           <p className="font-display text-lg font-semibold tracking-tight">
             Dinksira Elsa<span className="text-accent">.</span>
           </p>
-          <p className="mt-1 text-sm text-soft">UI/UX Designer &amp; Frontend Developer</p>
+          <p className="mt-1 text-sm text-soft">Full Stack Developer &amp; UI/UX Designer</p>
         </div>
 
         <ul className="flex flex-wrap justify-center gap-x-6 gap-y-3">
