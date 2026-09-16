@@ -18,6 +18,7 @@ interface Project {
   tags: string[];
   image?: string;
   logo?: string;
+  aspect?: string;
   links?: ProjectLink[];
 }
 
@@ -32,6 +33,7 @@ const projects: Project[] = [
     tags: ['React', 'TypeScript', 'Node.js', 'SQL', 'npm workspaces'],
     image: '/Enderas.png',
     logo: '/enderas_logo_blue.svg',
+    aspect: '1333 / 630',
     links: [{ label: 'Live Site', href: 'https://enderasbid.com/' }],
   },
   {
@@ -44,6 +46,8 @@ const projects: Project[] = [
     tags: ['React', 'Vite', 'Express', 'FastAPI', 'Claude API', 'Supabase'],
     image: '/Relavo.png',
     logo: '/relavoicon.svg',
+    aspect: '1314 / 622',
+    links: [{ label: 'Live Site', href: 'https://relavo.xyz/' }],
   },
   {
     id: 3,
@@ -93,7 +97,10 @@ export default function ProjectsShowcase() {
               className={i % 2 === 1 ? 'md:mt-16' : ''}
             >
               <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-surface transition-colors hover:border-ink/40">
-                <div className="relative aspect-[16/10] overflow-hidden border-b border-line bg-surface-muted">
+                <div
+                  className="relative overflow-hidden border-b border-line bg-surface-muted"
+                  style={{ aspectRatio: project.aspect ?? '16 / 10' }}
+                >
                   {project.logo && (
                     <div className="absolute left-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-md border border-line bg-background/85 p-1.5 backdrop-blur">
                       <Image
