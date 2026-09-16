@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 
@@ -18,6 +18,7 @@ const navItems = [
 
 export default function Header() {
   const { theme, toggleTheme } = useTheme();
+  const reduceMotion = useReducedMotion();
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState('home');
   const [progress, setProgress] = useState(0);
@@ -64,9 +65,74 @@ export default function Header() {
       <nav className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6">
         <button
           onClick={() => scrollTo('home')}
+          aria-label="Dinksira Elsa — back to top"
           className="font-display text-lg font-semibold tracking-tight"
         >
-          Dinksira<span className="text-accent">.</span>
+          <span className="sr-only">Dinksira</span>
+          <span aria-hidden="true" className="relative inline-block">
+            <motion.span
+              className="pointer-events-none absolute -top-2 bottom-0 left-0 w-1/3 blur-md"
+              style={{
+                background:
+                  'linear-gradient(90deg, transparent, var(--accent), transparent)',
+                opacity: 0.45,
+              }}
+              animate={reduceMotion ? {} : { x: ['-120%', '420%'] }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                repeatDelay: 2.6,
+                ease: [0.4, 0, 0.2, 1],
+              }}
+            />
+            {'Dinksira'.split('').map((char, i) => (
+              <motion.span
+                key={i}
+                className="inline-block"
+                initial={reduceMotion ? { opacity: 0 } : { y: -14, opacity: 0, rotate: -8 }}
+                animate={reduceMotion ? { opacity: 1 } : { y: 0, opacity: 1, rotate: 0 }}
+                transition={{ duration: 0.6, delay: 0.15 + i * 0.045, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <motion.span
+                  className="inline-block will-change-transform"
+                  animate={reduceMotion ? {} : { y: [0, -3.5, 0], rotate: [0, 2.5, 0] }}
+                  transition={{
+                    duration: 2.2,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    delay: i * 0.08,
+                  }}
+                >
+                  {char}
+                </motion.span>
+              </motion.span>
+            ))}
+            <motion.span
+              className="relative inline-block text-accent"
+              initial={reduceMotion ? { opacity: 0 } : { scale: 0, opacity: 0 }}
+              animate={reduceMotion ? { opacity: 1 } : { scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.15 + 8 * 0.045, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <motion.span
+                className="absolute h-4 w-4 rounded-full border border-accent"
+                style={{ left: '50%', top: '50%', x: '-50%', y: '-50%' }}
+                animate={reduceMotion ? {} : { scale: [0.3, 1.6], opacity: [0.7, 0] }}
+                transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut', delay: 1.4 }}
+              />
+              <motion.span
+                className="inline-block"
+                animate={reduceMotion ? {} : { scale: [1, 1.25, 1] }}
+                transition={{
+                  duration: 2.2,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                  delay: 8 * 0.08,
+                }}
+              >
+                .
+              </motion.span>
+            </motion.span>
+          </span>
         </button>
 
         <div className="hidden items-center gap-7 md:flex">
