@@ -42,6 +42,8 @@ const projects: Project[] = [
     description:
       'Keeps client records and interaction history in one place for small businesses, using the Claude API to summarise relationships and surface accounts that have gone quiet. Built end to end, from database schema to interface.',
     tags: ['React', 'Vite', 'Express', 'FastAPI', 'Claude API', 'Supabase'],
+    image: '/Relavo.png',
+    logo: '/relavoicon.svg',
   },
   {
     id: 3,
