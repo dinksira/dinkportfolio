@@ -27,6 +27,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
 
   body {
@@ -34,10 +35,13 @@
     color: var(--ink);
     font-family: 'Inter', 'SF Pro Text', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+    -webkit-tap-highlight-color: transparent;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Clash Display', 'Inter', system-ui, sans-serif;
+    text-wrap: balance;
   }
 
   ::selection {

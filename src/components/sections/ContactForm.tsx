@@ -79,7 +79,7 @@ export default function ContactForm() {
     'w-full border-b border-line bg-transparent py-3 text-ink placeholder:soft transition-colors focus:border-accent focus:outline-none';
 
   return (
-    <section id="contact" className="border-t border-line py-24">
+    <section id="contact" className="scroll-mt-24 border-t border-line py-24">
       <div className="mx-auto max-w-6xl px-6">
         <Reveal>
           <p className="text-xs uppercase tracking-[0.3em] text-accent">05 — Contact</p>

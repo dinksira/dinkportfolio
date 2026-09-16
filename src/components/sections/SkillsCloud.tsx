@@ -59,7 +59,7 @@ const tools = [
 
 export default function SkillsCloud() {
   return (
-    <section id="skills" className="border-t border-line py-24">
+    <section id="skills" className="scroll-mt-24 border-t border-line py-24">
       <div className="mx-auto max-w-6xl px-6">
         <Reveal>
           <p className="text-xs uppercase tracking-[0.3em] text-accent">02 — Skills</p>
@@ -86,7 +86,7 @@ export default function SkillsCloud() {
 
         <Reveal delay={0.15} className="mt-16 border-t border-line pt-10">
           <h3 className="text-sm uppercase tracking-[0.2em] text-soft">Toolbox</h3>
-          <div className="mt-8 grid grid-cols-4 gap-x-6 gap-y-8 md:grid-cols-8">
+          <div className="mt-8 grid grid-cols-4 gap-x-3 gap-y-8 sm:gap-x-4 md:grid-cols-8 md:gap-x-6">
             {tools.map(({ name, Icon }) => (
               <div key={name} className="group flex flex-col items-center gap-3 text-center">
                 <div className="flex h-10 w-10 items-center justify-center text-ink/70 transition-colors group-hover:text-accent">

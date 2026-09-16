@@ -171,12 +171,22 @@ export default function Header() {
           </button>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Open menu"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
             className="flex h-9 w-9 items-center justify-center rounded-md border border-line md:hidden"
           >
-            <div className="space-y-1.5">
-              <span className="block h-px w-4 bg-ink" />
-              <span className="block h-px w-4 bg-ink" />
+            <div className="relative h-4 w-4">
+              <span
+                className={`absolute left-0 top-1/2 block h-px w-4 bg-ink transition-all duration-200 ${
+                  menuOpen ? 'rotate-45' : '-translate-y-1'
+                }`}
+              />
+              <span
+                className={`absolute left-0 top-1/2 block h-px w-4 bg-ink transition-all duration-200 ${
+                  menuOpen ? '-rotate-45' : 'translate-y-1'
+                }`}
+              />
             </div>
           </button>
         </div>
@@ -185,6 +195,7 @@ export default function Header() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
+            id="mobile-menu"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}

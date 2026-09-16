@@ -74,7 +74,7 @@ const projects: Project[] = [
 
 export default function ProjectsShowcase() {
   return (
-    <section id="projects" className="border-t border-line py-24">
+    <section id="projects" className="scroll-mt-24 border-t border-line py-24">
       <div className="mx-auto max-w-6xl px-6">
         <Reveal>
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">

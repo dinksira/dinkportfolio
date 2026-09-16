@@ -29,7 +29,7 @@ export default function Hero() {
   };
 
   return (
-    <section id="home" className="flex min-h-screen items-center pt-16">
+    <section id="home" className="flex min-h-svh items-center pt-16 scroll-mt-24">
       <div className="mx-auto grid w-full max-w-6xl gap-16 px-6 py-24 lg:grid-cols-12 lg:items-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
