@@ -6,10 +6,10 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Dinksira Elsa — UI/UX Designer & Frontend Developer',
+  title: 'Dinksira Elsa — Full Stack Developer & UI/UX Designer',
   description:
-    'Portfolio of Dinksira Elsa, a UI/UX Designer & Frontend Developer creating clean, functional digital experiences.',
-  keywords: 'UI/UX Design, Frontend Development, React, Next.js, TypeScript',
+    'Portfolio of Dinksira Elsa, a Full Stack Developer & UI/UX Designer. I design in Figma, then build it — React, Next.js, React Native, Node.js and FastAPI.',
+  keywords: 'Full Stack Development, UI/UX Design, React, Next.js, TypeScript, Node.js',
 };
 
 export default function RootLayout({

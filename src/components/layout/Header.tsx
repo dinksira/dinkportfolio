@@ -6,7 +6,7 @@ import { Moon, Sun } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
 
 const RESUME_URL =
-  'https://drive.google.com/file/d/1hh25YxVdYL7iln2_UuSQj5XqF7GfVm0C/view?usp=drive_link';
+  'https://drive.google.com/file/d/1woQVgpWxist-an5YBJ0L2wv6yOYxPPqj/view?usp=drive_link';
 
 const navItems = [
   { id: 'home', label: 'Home' },

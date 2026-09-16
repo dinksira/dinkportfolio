@@ -121,7 +121,7 @@ export default function Timeline() {
 
         <Reveal delay={0.16} className="mt-12">
           <a
-            href="/Dink%27s_Resume.pdf"
+            href="/Dinksira_Elsa_Resume.pdf"
             download
             className="inline-flex rounded-md border border-line px-6 py-3 text-sm font-medium transition-colors hover:border-ink hover:bg-surface-muted"
           >
