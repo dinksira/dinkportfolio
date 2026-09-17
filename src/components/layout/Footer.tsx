@@ -1,11 +1,17 @@
-import { ArrowUpRight } from 'lucide-react';
+import {
+  BehanceIcon,
+  DribbbleIcon,
+  GitHubIcon,
+  LinkedInIcon,
+  TelegramIcon,
+} from '@/components/sections/ToolIcons';
 
 const socials = [
-  { name: 'Behance', href: 'https://www.behance.net/dinksiraelsa' },
-  { name: 'Dribbble', href: 'https://dribbble.com/dinksira-elsa' },
-  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/dinksira-elsa-13904b319/' },
-  { name: 'GitHub', href: 'https://github.com/dinksira' },
-  { name: 'Telegram', href: 'https://t.me/Dink_Sira' },
+  { name: 'Behance', href: 'https://www.behance.net/dinksiraelsa', Icon: BehanceIcon },
+  { name: 'Dribbble', href: 'https://dribbble.com/dinksira-elsa', Icon: DribbbleIcon },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/dinksira-elsa-13904b319/', Icon: LinkedInIcon },
+  { name: 'GitHub', href: 'https://github.com/dinksira', Icon: GitHubIcon },
+  { name: 'Telegram', href: 'https://t.me/Dink_Sira', Icon: TelegramIcon },
 ];
 
 export default function Footer() {
@@ -21,20 +27,18 @@ export default function Footer() {
           <p className="mt-1 text-sm text-soft">Full Stack Developer &amp; UI/UX Designer</p>
         </div>
 
-        <ul className="flex flex-wrap justify-center gap-x-6 gap-y-3">
+        <ul className="flex flex-wrap justify-center gap-8">
           {socials.map((social) => (
             <li key={social.name}>
               <a
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-1 text-sm text-soft transition-colors hover:text-ink"
+                aria-label={social.name}
+                title={social.name}
+                className="text-soft transition-colors hover:text-accent"
               >
-                {social.name}
-                <ArrowUpRight
-                  size={12}
-                  className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                />
+                <social.Icon className="h-6 w-6" />
               </a>
             </li>
           ))}
