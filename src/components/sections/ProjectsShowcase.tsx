@@ -63,12 +63,17 @@ const projects: Project[] = [
   },
   {
     id: 4,
-    title: 'NoStock',
-    subtitle: 'ERP & Business Management System',
-    category: 'SaaS',
+    title: 'Health Advisor',
+    subtitle: 'Android Health Assistant',
+    category: 'Mobile',
     description:
-      'Pulls inventory, operations, and internal workflows into a single web system, structured so new modules can be added without pulling the core apart.',
-    tags: ['React', 'Node.js', 'PostgreSQL'],
+      'An Android app giving personalised health recommendations, tailored to each user\'s data and habits.',
+    tags: ['Android', 'Java', 'SQLite'],
+    image: '/Health_Addvisor.png',
+    aspect: '2 / 1',
+    links: [
+      { label: 'GitHub', href: 'https://github.com/dinksira/Health_Advisor.git' },
+    ],
   },
 ];
 
@@ -90,12 +95,14 @@ export default function ProjectsShowcase() {
           </div>
         </Reveal>
 
-        <div className="mt-14 grid gap-8 md:grid-cols-2">
+        <div className="mt-14 grid gap-8 md:grid-cols-2 items-start">
           {projects.map((project, i) => (
             <Reveal
               key={project.id}
               delay={(i % 2) * 0.08}
-              className={i % 2 === 1 ? 'md:mt-16' : ''}
+              className={
+                i % 2 === 1 && i < projects.length - 1 ? 'md:mt-16' : ''
+              }
             >
               <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-surface transition-colors hover:border-ink/40">
                 <div
