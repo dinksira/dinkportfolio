@@ -172,7 +172,7 @@ export default function TwoFaces() {
               {/* Viewport Header */}
               <div className="flex items-center justify-between px-5 py-3.5 border-b border-line/60">
                 <div className="flex items-center gap-2">
-                  <span className={`flex h-2 w-2 rounded-full animate-pulse ${activeTab === 'design' ? 'bg-violet-400' : 'bg-cyan-400'}`} />
+                  <span className={`flex h-2 w-2 rounded-full animate-pulse ${activeTab === 'design' ? 'bg-amber-400' : 'bg-cyan-400'}`} />
                   <span className="text-[0.6875rem] uppercase tracking-wider text-soft">Interactive Viewport</span>
                 </div>
                 <span className="text-[0.6875rem] text-soft/60 uppercase tracking-wider">
