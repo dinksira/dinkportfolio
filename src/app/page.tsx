@@ -11,6 +11,12 @@ const Scene = dynamic(() => import('@/components/kairo/Scene'), {
   ssr: false,
 });
 
+// Creative collaborative Figma canvas background with multiplayer cursors & wireframe frames
+const FigmaCanvasBackground = dynamic(
+  () => import('@/components/kairo/FigmaCanvasBackground'),
+  { ssr: false }
+);
+
 // Below-the-fold sections loaded on demand
 const TwoFaces = dynamic(() => import('@/components/sections/TwoFaces'));
 const Passage = dynamic(() => import('@/components/sections/Passage'));
@@ -25,6 +31,7 @@ export default function Home() {
       {/* Fixed background stack */}
       <Sky />
       <Scene />
+      <FigmaCanvasBackground />
       <Grain />
 
       {/* Scrollable interface */}
