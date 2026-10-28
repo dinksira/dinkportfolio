@@ -199,40 +199,39 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right Showcase: Framed Editorial Portrait */}
+          {/* Right Showcase: Floating Cutout Portrait */}
           <div className="col-span-12 lg:col-span-5 xl:col-span-5 flex justify-center lg:justify-end">
-            <div data-hero-portrait className="w-full max-w-[360px] sm:max-w-[400px] lg:max-w-[420px]">
-              <div className="group relative rounded-3xl border border-line/80 bg-surface/30 p-3 sm:p-3.5 backdrop-blur-md shadow-2xl transition-all duration-500 hover:border-line-strong hover:shadow-accent/10">
-                
-                {/* Archival Inset Frame with double hairline */}
-                <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-bg-alt border border-line/60">
-                  <Image
-                    src={identity.portrait}
-                    alt={identity.portraitAlt}
-                    fill
-                    priority
-                    sizes="(min-width: 1024px) 36vw, 400px"
-                    className="object-cover object-[center_18%] grayscale-[0.2] contrast-[1.05] transition-all duration-700 ease-out group-hover:scale-[1.02] group-hover:grayscale-0"
-                  />
+            <div data-hero-portrait className="w-full max-w-[340px] sm:max-w-[380px] lg:max-w-[420px]">
 
-                  {/* Gentle ambient film vignette */}
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-bg/50 via-transparent to-transparent opacity-60" />
-                </div>
+              {/* Floating person cutout with natural transparent gradient dissolve */}
+              <div className="group relative w-full select-none">
 
-                {/* Editorial Archival Plate below the portrait */}
-                <div className="mt-3.5 px-1 flex items-center justify-between text-soft">
-                  <div className="flex items-center gap-2.5">
-                    <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[0.6875rem] uppercase tracking-[0.16em] font-medium text-ink">
-                      Active In Studio
-                    </span>
-                  </div>
-                  <span className="text-[0.6875rem] uppercase tracking-wider text-soft/70">
-                    Addis Ababa · 9°N 38°E
-                  </span>
-                </div>
+                {/* Cutout Image with pure transparent gradient */}
+                <Image
+                  src={identity.portrait}
+                  alt={identity.portraitAlt}
+                  width={420}
+                  height={560}
+                  priority
+                  sizes="(min-width: 1024px) 36vw, 400px"
+                  className="relative w-full h-auto object-contain transition-transform duration-700 ease-out group-hover:scale-[1.015] group-hover:-translate-y-1"
+                />
 
               </div>
+
+              {/* Floating status plate below */}
+              <div className="mt-4 px-1 flex items-center justify-between text-soft">
+                <div className="flex items-center gap-2.5">
+                  <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-[0.6875rem] uppercase tracking-[0.16em] font-medium text-ink">
+                    Active In Studio
+                  </span>
+                </div>
+                <span className="text-[0.6875rem] uppercase tracking-wider text-soft/70">
+                  Addis Ababa · 9°N 38°E
+                </span>
+              </div>
+
             </div>
           </div>
         </div>
