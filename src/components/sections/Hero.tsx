@@ -206,6 +206,12 @@ export default function Hero() {
               {/* Floating person cutout with natural transparent gradient dissolve */}
               <div className="group relative w-full select-none">
 
+                {/* Soft ambient back glow for editorial depth */}
+                <div
+                  className="pointer-events-none absolute inset-x-6 top-12 bottom-16 rounded-[50%] blur-3xl opacity-20 bg-accent transition-opacity duration-700 group-hover:opacity-35"
+                  aria-hidden="true"
+                />
+
                 {/* Cutout Image with pure transparent gradient */}
                 <Image
                   src={identity.portrait}
