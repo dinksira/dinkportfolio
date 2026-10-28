@@ -11,7 +11,7 @@ export const identity = {
   location: 'Addis Ababa, Ethiopia',
   greetingAmharic: 'እንኳን ደህና መጡ',
   bio: 'Bridging Figma design systems directly into production code — React & Next.js on the web, cross-platform mobile apps, and high-performance Node.js & FastAPI backends with zero fidelity loss.',
-  portrait: '/profile.png',
+  portrait: '/profile_transparent.png',
   portraitAlt: 'Portrait of Dinksira Elsa',
   availability: 'Available for work',
   resumeDrive:
